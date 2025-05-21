@@ -1,0 +1,29 @@
+# Node.js modules
+node_modules/
+
+# Auto-generated test runner
+main.js
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Environment files (if any in future)
+.env
+.env.*
+
+# VSCode settings (optional)
+.vscode/
+
+# Coverage results (if testing with coverage tools later)
+coverage/
+
+# Mac/Linux swap or temp files
+*.swp
+*.swo
+*~

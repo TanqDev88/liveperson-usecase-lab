@@ -429,3 +429,184 @@ function guardarValidacionPaises_AVJE(resultado){
 }
 
 
+
+//////////////////////////////////////////
+///////////////////// PRUEBAS
+
+/** Constantes de rutas y configuraciones */
+// Lista de países válidos // TODO completar con la lista entera 
+var LISTA_PAISES_AVJE = {
+    "Paises": [
+        { "codigo": "AF", "descripcion": "AFGANISTAN" },
+        { "codigo": "AL", "descripcion": "ALBANIA" },
+        { "codigo": "DE", "descripcion": "ALEMANIA" }
+    ]
+};
+
+// Constantes de rutas
+var RUTA_AVISO_PAISES_MIXTOS = 'T _ Confirmacion con paises invalidos @AVJE';
+var RUTA_AVISO_PAISES_INVALIDOS = 'B _ Todos los paises invalidos @AVJE';
+var RUTA_AVISO_PAISES_VALIDOS = 'T _ Confirmacion sin paises invalidos @AVJE';
+var RUTA_AVISO_NINGUN_PAIS_INGRESADO = 'B _ Todos los paises invalidos @AVJE';
+
+/**
+ * Valida los países ingresados contra la lista permitida.
+ *
+ * @param {string} paises - Lista de países separados por coma.
+ * @returns {Object} - Objeto con dos listas: válidos e inválidos.
+ */
+function validarPaises_AVJE(paises) {
+    var listaPaises = paises.split(',');
+    var paisesValidosJson = [];
+    var paisesValidos = [];
+    var paisesInvalidos = [];
+
+    listaPaises.forEach(function(pais) {
+        var encontrado = LISTA_PAISES_AVJE.Paises.find(function(p) {
+            return compareIgnoreCaseAndSpaces(p.descripcion, pais);
+        });
+        if (encontrado) {
+            paisesValidos.push(encontrado.descripcion);
+            paisesValidosJson.push(encontrado);
+        } else {
+            paisesInvalidos.push(pais.trim());
+        }
+    });
+
+    return {
+        validosJson : paisesValidosJson,
+        validos: paisesValidos,
+        invalidos: paisesInvalidos
+    };
+}
+
+
+/**
+ * Lógica para determinar la interacción dependiendo de los países encontrados.
+ *
+ * @param {Object} resultado - Objeto con los países válidos e inválidos.
+ * @returns {string} - Ruta a seguir en el flujo.
+ */
+function determinarRutaPaises_AVJE(resultado) { 
+    if (resultado.invalidos.length > 0 && resultado.validos.length > 0) {
+        return RUTA_AVISO_PAISES_MIXTOS;
+    }
+    if (resultado.invalidos.length > 0) {
+        return RUTA_AVISO_PAISES_INVALIDOS;
+    }
+    if (resultado.validos.length > 0) {
+        return RUTA_AVISO_PAISES_VALIDOS;
+    }
+    return RUTA_AVISO_NINGUN_PAIS_INGRESADO;
+}
+
+function guardarValidacionPaises_AVJE(resultado){
+    setBotVar('lista_paises_validos_JSON', resultado.validosJson) //JORGE ver el resultado.validoJson
+    setBotVar('lista_paises_validos', capitalizarFrase(resultado.validos.join(', '))); //JORGE ver el resultado.valido
+    setBotVar('lista_paises_invalidos',capitalizarFrase( resultado.invalidos.join(', ') )); //JORGE ver el resultado.valido
+}
+
+// === PRUEBAS ===
+console.log(validarPaises_AVJE("ALEMANIA, AFGANISTAN, ARGENTINA"));
+console.log(validarPaises_AVJE("ALBANIA, DE, MEXICO"));
+console.log(validarPaises_AVJE("PERU, BOLIVIA"));
+console.log("--------")
+var resultado1 = validarPaises_AVJE("ALEMANIA, AFGANISTAN, ARGENTINA");
+console.log(determinarRutaPaises_AVJE(resultado1));
+
+var resultado3 = validarPaises_AVJE("PERU, BOLIVIA");
+console.log(determinarRutaPaises_AVJE(resultado3));
+
+var resultado4 = validarPaises_AVJE(" A L b a n i a ");
+console.log(determinarRutaPaises_AVJE(resultado4));
+
+var resultado2 = validarPaises_AVJE("ALBANIA, DE, México");
+console.log(determinarRutaPaises_AVJE(resultado2));
+
+console.log("--------")
+
+guardarValidacionPaises_AVJE(resultado1);
+
+console.log(getBotVar("lista_paises_validos_JSON")); // esta va a ser para enviar a la api
+console.log(getBotVar("lista_paises_validos"));
+console.log(getBotVar("lista_paises_invalidos"));
+
+// --------------------------------------------------------ULTIMOS TEST
+
+// ================== CONSTANTES DE RUTAS ======================
+var RUTA_DATOS_PREVIA = 'Datos previa';
+var RUTA_TARJ_FI_FF_PAISES = 'Tarj + F.I. + F.F. + países previa';
+var RUTA_TARJ_FI_FF = 'Tarj + F.I. + F.F. previa';
+var RUTA_TARJ_FI = 'Tarj + Fecha inicio previa';
+var RUTA_SOLO_TARJETAS = 'Selección tarjetas previa';
+var RUTA_INTRO = 'Intro';
+
+/**
+ * Verifica el estado previo de las variables del aviso de viaje
+ * y redirige a la ruta correspondiente del flujo de conversación.
+ */
+function T_check_estado_prev_avje() {
+    var tarjetasAVJE = getBotVar('tarjetasAVJE');
+    var fechaInicioAVJE = getBotVar('fechaInicioAVJE');
+    var fechaFinAVJE = getBotVar('fechaFinAVJE');
+    var paisesAVJE = getBotVar('paisesAVJE');
+    var emailUsuario = getBotVar('emailUsuario');
+
+    if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE) && !isEmpty(fechaFinAVJE) && !isEmpty(paisesAVJE) && !isEmpty(emailUsuario)) {
+        goToDialog(RUTA_DATOS_PREVIA);
+    } else if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE) && !isEmpty(fechaFinAVJE) && !isEmpty(paisesAVJE)) {
+        goToDialog(RUTA_TARJ_FI_FF_PAISES);
+    } else if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE) && !isEmpty(fechaFinAVJE)) {
+        goToDialog(RUTA_TARJ_FI_FF);
+    } else if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE)) {
+        goToDialog(RUTA_TARJ_FI);
+    } else if (!isEmpty(tarjetasAVJE)) {
+        goToDialog(RUTA_SOLO_TARJETAS);
+    } else {
+        goToDialog(RUTA_INTRO);
+    }
+}
+
+// ===========================================================
+// TESTING PARA LA FUNCIÓN: T_check_estado_prev_avje
+// valida el flujo de diálogo según variables de contexto
+// ===========================================================
+
+// CASO 1: Todas las variables presentes
+// resetVars();
+setBotVar('tarjetasAVJE', '1234');
+setBotVar('fechaInicioAVJE', '2024-06-01');
+setBotVar('fechaFinAVJE', '2024-06-15');
+setBotVar('paisesAVJE', 'ARGENTINA');
+setBotVar('emailUsuario', 'test@email.com');
+T_check_estado_prev_avje(); // Esperado: Datos previa
+
+// CASO 2: Falta email
+// resetVars();
+setBotVar('tarjetasAVJE', '1234');
+setBotVar('fechaInicioAVJE', '2024-06-01');
+setBotVar('fechaFinAVJE', '2024-06-15');
+setBotVar('paisesAVJE', 'ARGENTINA');
+T_check_estado_prev_avje(); // Esperado: Tarj + F.I. + F.F. + países previa
+
+// CASO 3: Solo tarjetas, fecha inicio y fin
+//resetVars();
+setBotVar('tarjetasAVJE', '1234');
+setBotVar('fechaInicioAVJE', '2024-06-01');
+setBotVar('fechaFinAVJE', '2024-06-15');
+T_check_estado_prev_avje(); // Esperado: Tarj + F.I. + F.F. previa
+
+// CASO 4: Solo tarjetas y fecha inicio
+//resetVars();
+setBotVar('tarjetasAVJE', '1234');
+setBotVar('fechaInicioAVJE', '2024-06-01');
+T_check_estado_prev_avje(); // Esperado: Tarj + Fecha inicio previa
+
+// CASO 5: Solo tarjetas
+//resetVars();
+setBotVar('tarjetasAVJE', '1234');
+T_check_estado_prev_avje(); // Esperado: Selección tarjetas previa
+
+// CASO 6: Ninguna variable
+//resetVars();
+T_check_estado_prev_avje(); // Esperado: Intro
