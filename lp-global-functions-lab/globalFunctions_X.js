@@ -380,7 +380,53 @@ function res_generarAvisoViaje(data, statusCode) {
     setBotVar_v2('demo_response', data);
     set_universalStatusCode(statusCode);
 }
+// ? ---------- UTILS GENERAR AVISO -------------
 
+function filtrarTarjetasAvisoViaje(data) {
+    logDebug('SE FILTRAN LAS TARJETAS OBTENIDAS DESDE EL SERVICIO');
+    var tarjetas = data.filter(function (tarjeta) {
+        var partes = tarjeta.marca.split('-');
+        return (partes[0] === 'VI' || partes[0] === 'AM') && (partes[1] === 'DB' || partes[1] === 'CR') && (tarjeta.categoria == 0 || tarjeta.categoria == 1 || tarjeta.categoria === 'E');
+    });
+    tarjetas.forEach(function (e) {
+        e.titleUI = obtenerTituloTarj_AVJE(e.marca);
+    });
+    return tarjetas;
+}
+function obtenerTituloTarj_AVJE(marca) {
+    var partes = marca.split('-');
+    var marcas = {
+        VI: 'VISA',
+        AM: 'AMEX',
+    };
+    var tipos = {
+        CR: 'CRÉDITO',
+        DB: 'DÉBITO',
+    };
+    return marcas[partes[0]] + ' ' + tipos[partes[1]];
+}
+function addTarjetasEnLista(tarjetas) {
+    var list = [];
+    var listUI = [];
+    tarjetas.forEach(function (e) {
+        listUI.push(e.titleUI + ' XXXX-' + e.ultimoscuatrodigitos);
+        list.push({ hash: e.hash });
+    });
+    setBotVar('tarjetas_seleccionadas', listUI.join(', '));
+    return set_listaHashTarjetas_AVJE(list);
+}
+function set_infoTarjetas_AVJE(val) {
+    setBotVar_v2('infoTarjetas_AVJE', val);
+}
+function get_infoTarjetas_AVJE() {
+    return getBotVar_v2('infoTarjetas_AVJE');
+}
+function set_listaHashTarjetas_AVJE(list) {
+    setBotVar_v2('listaHashTarjetas_AVJE', list);
+}
+function get_listaHashTarjetas_AVJE() {
+    return getBotVar_v2('listaHashTarjetas_AVJE');
+}
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Funciones para validar paises - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 /** Constantes de rutas y configuraciones */
 // Lista de países válidos // TODO completar con la lista entera 
