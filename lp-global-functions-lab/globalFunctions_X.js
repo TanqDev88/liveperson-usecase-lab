@@ -355,6 +355,32 @@ function T_check_estado_prev_avje() {
     }
 }
 
+//?---------------- HANDLERS ----------
+function res_consultaTarjetasAvisoViaje(data, statusCode) {
+    logDebug('input res_consultaTarjetasAvisoViaje', data);
+    setBotVar_v2('demo_response', data);
+    set_universalStatusCode(statusCode);
+    if (statusCode == 200) {
+        setDataTarjetas(data.Tarjetas);
+    }
+}
+function res_consultaAvisosViaje(data, statusCode) {
+    logDebug('input res_consultaTarjetasAvisoViaje', data);
+    set_universalStatusCode(statusCode);
+    if (statusCode == 200) {
+        setBotVar_v2('res_avisosDeViaje', data.viajes);
+    }
+}
+function res_eliminarAvisoViaje(data, statusCode) {
+    logDebug('input res_eliminarAvisoViaje', data);
+    set_universalStatusCode(statusCode);
+}
+function res_generarAvisoViaje(data, statusCode) {
+    logDebug('input res_generarAvisoViaje', data);
+    setBotVar_v2('demo_response', data);
+    set_universalStatusCode(statusCode);
+}
+
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - Funciones para validar paises - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
 /** Constantes de rutas y configuraciones */
 // Lista de países válidos // TODO completar con la lista entera 
