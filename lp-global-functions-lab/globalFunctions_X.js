@@ -146,6 +146,21 @@ function noSymbol(str) {
     return str;
 }
 
+function isEmpty(val) {
+    var typeOfVal = typeof val;
+    switch (typeOfVal) {
+        case 'object':
+            return val == null || val.length == 0 || !Object.keys(val).length || val == undefined;
+        case 'string':
+            var str = val.trim();
+            return str == '' || str == undefined || str == 'Sin asignar' || str == ' ' || str == '""' || val == null;
+        case 'number':
+            return val == '' || val == ' ' || val == undefined || val == null;
+        default:
+            return val == '' || val == undefined || val == ' ' || val == null;
+    }
+}
+
 //****************************************************************************************************************************************
 //**                                            UTILS LIVE PERSON                                                                        **/
 //****************************************************************************************************************************************
@@ -341,17 +356,17 @@ function T_check_estado_prev_avje() {
     var emailUsuario = getBotVar('emailUsuario');
 
     if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE) && !isEmpty(fechaFinAVJE) && !isEmpty(paisesAVJE) && !isEmpty(emailUsuario)) {
-        goToDialog('Datos previa');
+        goNext('Datos previa');
     } else if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE) && !isEmpty(fechaFinAVJE) && !isEmpty(paisesAVJE)) {
-        goToDialog('Tarj + F.I. + F.F. + países previa');
+        goNext('Tarj + F.I. + F.F. + países previa');
     } else if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE) && !isEmpty(fechaFinAVJE)) {
-        goToDialog('Tarj + F.I. + F.F. previa');
+        goNext('Tarj + F.I. + F.F. previa');
     } else if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE)) {
-        goToDialog('Tarj + Fecha inicio previa');
+        goNext('Tarj + Fecha inicio previa');
     } else if (!isEmpty(tarjetasAVJE)) {
-        goToDialog('Selección tarjetas previa');
+        goNext('Selección tarjetas previa');
     } else {
-        goToDialog('Intro');
+        goNext('Intro');
     }
 }
 
@@ -437,6 +452,14 @@ var LISTA_PAISES_AVJE = {
         { "codigo": "DE", "descripcion": "ALEMANIA" }
     ]
 };
+
+function Q_Paisesdestino_AVJE_processUserResponse() {
+    var paisesJSON = validarPaises_AVJE(getUserMessage());
+    var goNextVar = determinarRutaPaises_AVJE(paisesJSON);
+    guardarValidacionPaises_AVJE(paisesJSON);
+    goNext(goNextVar);
+}
+
 
 // Constantes de rutas
 var RUTA_AVISO_PAISES_MIXTOS = 'T _ Confirmacion con paises invalidos @AVJE';
@@ -625,17 +648,17 @@ function T_check_estado_prev_avje() {
     var emailUsuario = getBotVar('emailUsuario');
 
     if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE) && !isEmpty(fechaFinAVJE) && !isEmpty(paisesAVJE) && !isEmpty(emailUsuario)) {
-        goToDialog(RUTA_DATOS_PREVIA);
+        goNext(RUTA_DATOS_PREVIA);
     } else if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE) && !isEmpty(fechaFinAVJE) && !isEmpty(paisesAVJE)) {
-        goToDialog(RUTA_TARJ_FI_FF_PAISES);
+        goNext(RUTA_TARJ_FI_FF_PAISES);
     } else if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE) && !isEmpty(fechaFinAVJE)) {
-        goToDialog(RUTA_TARJ_FI_FF);
+        goNext(RUTA_TARJ_FI_FF);
     } else if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE)) {
-        goToDialog(RUTA_TARJ_FI);
+        goNext(RUTA_TARJ_FI);
     } else if (!isEmpty(tarjetasAVJE)) {
-        goToDialog(RUTA_SOLO_TARJETAS);
+        goNext(RUTA_SOLO_TARJETAS);
     } else {
-        goToDialog(RUTA_INTRO);
+        goNext(RUTA_INTRO);
     }
 }
 
