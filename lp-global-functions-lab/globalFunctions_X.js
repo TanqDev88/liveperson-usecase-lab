@@ -1,119 +1,119 @@
-/** Simula el bot context */
-const botContext = (function () {
-  let BOTVARS = {};
-  let BOTNAMESPACE = {};
-  let BOTENV = { env: "LOCAL", env_bot_cb: "DEV", urlAlgo: "google.com" };
-  //https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
-  const LOG_COLORS = {
-    FgBlack: "\x1b[30m",
-    FgRed: "\x1b[31m",
-    FgGreen: "\x1b[32m",
-    FgYellow: "\x1b[33m",
-    FgBlue: "\x1b[34m",
-    FgMagenta: "\x1b[35m",
-    FgCyan: "\x1b[36m",
-    FgWhite: "\x1b[37m",
-    FgGray: "\x1b[90m",
-  };
-  return {
-    isContextApiEnabled: function () {
-      return true;
-    },
-    getAllContext: function () {
-      return { BOTVARS, BOTNAMESPACE };
-    },
-    setAllowMaxTextResponse: function () {},
-    getChatBotId: function () {
-      return "bot ID xxxx";
-    },
-    getUserPlatformId: function () {
-      return "getUserPlatformId ID xxxx";
-    },
-    getConversationId: function () {
-      return "612a8693-f041-4c59-9a4c-f015b2709166";
-    },
-    getLPCustomerInfo: function () {
-      return { customerId: "whatsapp_8914408_5491155555555" };
-    },
-    getUserMessage: function () {
-      console.log("Obteniendo mensaje del usuario");
-      return "Mensaje del usuario";
-    },
-    getIntent: function () {
-      console.log("Obteniendo intención del diálogo");
-      return "Intención del diálogo";
-    },
-    setBotVariable: function (arg, val) {
-      //console.log('Estableciendo variable en el contexto del bot:', arg, val);
-      BOTVARS[arg] = val;
-    },
-    getBotVariable: function (arg) {
-      //console.log('Obteniendo variable del contexto del bot:', arg);
-      return BOTVARS[arg];
-    },
-    getWebVar: function (arg) {
-      console.log("Obteniendo variable de la vista web:", arg);
-      return "Valor de la variable de la vista web";
-    },
-    setTriggerNextMessage: function (arg) {
-      console.log("Avanzando al siguiente mensaje:", arg);
-    },
-    setMessageDelay: function (arg) {
-      console.log("delay: ", arg);
-    },
-    getEnvVariable: function (arg) {
-      return BOTENV[arg];
-    },
-    registerContextNamespace: function (namespace, ttl) {
-      if (!BOTNAMESPACE[namespace]) BOTNAMESPACE[namespace] = {};
-      console.log("namespace creado", namespace);
-      return true;
-    },
-    setContextDataForUser: function (namespace, property, data) {
-      if (!BOTNAMESPACE[namespace])
-        throw new Error("No existe el namspace. Esta registrado ?");
-      BOTNAMESPACE[namespace][property] = data;
-    },
-    getContextDataForUser: function (namespace, property) {
-      if (!BOTNAMESPACE[namespace]) return null;
-      if (!property) return BOTNAMESPACE[namespace]; // si no viene propertie se devuelve todo el namespace
-      if (!BOTNAMESPACE[namespace][property]) return null;
-      return BOTNAMESPACE[namespace][property];
-    },
-    deleteContextDataForUser: function (namespace, property) {
-      if (BOTNAMESPACE[namespace] && BOTNAMESPACE[namespace][property]) {
-        delete BOTNAMESPACE[namespace][property];
-      }
-      if (namespace && !property) {
-        delete BOTNAMESPACE[namespace];
-      }
-    },
-    getGlobalContextData: function (namespace, property) {
-      if (!BOTNAMESPACE[namespace]) return null;
-      if (!property) return BOTNAMESPACE[namespace]; // si no viene propertie se devuelve todo el namespace
-      if (!BOTNAMESPACE[namespace][property]) return null;
-      return BOTNAMESPACE[namespace][property];
-    },
-    setGlobalContextData: function(namespace, property, data) {
-      if (!BOTNAMESPACE[namespace])
-        throw new Error("No existe el namspace. Esta registrado ?");
-      BOTNAMESPACE[namespace][property] = data;
-    },
-    sendMessage: function (arg) {
-      console.log(LOG_COLORS.FgCyan, arg);
-    },
-    logCustomEvent: function (event_name) {
-      console.log(LOG_COLORS.FgBlue, "Registrando evento:", event_name);
-    },
-    printDebugMessage: function (msg) {
-      console.log(LOG_COLORS.FgWhite, msg);
-    },
-    goNext: function(dialog) {
-      console.log('Next dialog: ' + dialog);
-    }
+// /** Simula el bot context */
+// const botContext = (function () {
+//   let BOTVARS = {};
+//   let BOTNAMESPACE = {};
+//   let BOTENV = { env: "LOCAL", env_bot_cb: "DEV", urlAlgo: "google.com" };
+//   //https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
+//   const LOG_COLORS = {
+//     FgBlack: "\x1b[30m",
+//     FgRed: "\x1b[31m",
+//     FgGreen: "\x1b[32m",
+//     FgYellow: "\x1b[33m",
+//     FgBlue: "\x1b[34m",
+//     FgMagenta: "\x1b[35m",
+//     FgCyan: "\x1b[36m",
+//     FgWhite: "\x1b[37m",
+//     FgGray: "\x1b[90m",
+//   };
+//   return {
+//     isContextApiEnabled: function () {
+//       return true;
+//     },
+//     getAllContext: function () {
+//       return { BOTVARS, BOTNAMESPACE };
+//     },
+//     setAllowMaxTextResponse: function () {},
+//     getChatBotId: function () {
+//       return "bot ID xxxx";
+//     },
+//     getUserPlatformId: function () {
+//       return "getUserPlatformId ID xxxx";
+//     },
+//     getConversationId: function () {
+//       return "612a8693-f041-4c59-9a4c-f015b2709166";
+//     },
+//     getLPCustomerInfo: function () {
+//       return { customerId: "whatsapp_8914408_5491155555555" };
+//     },
+//     getUserMessage: function () {
+//       console.log("Obteniendo mensaje del usuario");
+//       return "Mensaje del usuario";
+//     },
+//     getIntent: function () {
+//       console.log("Obteniendo intención del diálogo");
+//       return "Intención del diálogo";
+//     },
+//     setBotVariable: function (arg, val) {
+//       //console.log('Estableciendo variable en el contexto del bot:', arg, val);
+//       BOTVARS[arg] = val;
+//     },
+//     getBotVariable: function (arg) {
+//       //console.log('Obteniendo variable del contexto del bot:', arg);
+//       return BOTVARS[arg];
+//     },
+//     getWebVar: function (arg) {
+//       console.log("Obteniendo variable de la vista web:", arg);
+//       return "Valor de la variable de la vista web";
+//     },
+//     setTriggerNextMessage: function (arg) {
+//       console.log("Avanzando al siguiente mensaje:", arg);
+//     },
+//     setMessageDelay: function (arg) {
+//       console.log("delay: ", arg);
+//     },
+//     getEnvVariable: function (arg) {
+//       return BOTENV[arg];
+//     },
+//     registerContextNamespace: function (namespace, ttl) {
+//       if (!BOTNAMESPACE[namespace]) BOTNAMESPACE[namespace] = {};
+//       console.log("namespace creado", namespace);
+//       return true;
+//     },
+//     setContextDataForUser: function (namespace, property, data) {
+//       if (!BOTNAMESPACE[namespace])
+//         throw new Error("No existe el namspace. Esta registrado ?");
+//       BOTNAMESPACE[namespace][property] = data;
+//     },
+//     getContextDataForUser: function (namespace, property) {
+//       if (!BOTNAMESPACE[namespace]) return null;
+//       if (!property) return BOTNAMESPACE[namespace]; // si no viene propertie se devuelve todo el namespace
+//       if (!BOTNAMESPACE[namespace][property]) return null;
+//       return BOTNAMESPACE[namespace][property];
+//     },
+//     deleteContextDataForUser: function (namespace, property) {
+//       if (BOTNAMESPACE[namespace] && BOTNAMESPACE[namespace][property]) {
+//         delete BOTNAMESPACE[namespace][property];
+//       }
+//       if (namespace && !property) {
+//         delete BOTNAMESPACE[namespace];
+//       }
+//     },
+//     getGlobalContextData: function (namespace, property) {
+//       if (!BOTNAMESPACE[namespace]) return null;
+//       if (!property) return BOTNAMESPACE[namespace]; // si no viene propertie se devuelve todo el namespace
+//       if (!BOTNAMESPACE[namespace][property]) return null;
+//       return BOTNAMESPACE[namespace][property];
+//     },
+//     setGlobalContextData: function(namespace, property, data) {
+//       if (!BOTNAMESPACE[namespace])
+//         throw new Error("No existe el namspace. Esta registrado ?");
+//       BOTNAMESPACE[namespace][property] = data;
+//     },
+//     sendMessage: function (arg) {
+//       console.log(LOG_COLORS.FgCyan, arg);
+//     },
+//     logCustomEvent: function (event_name) {
+//       console.log(LOG_COLORS.FgBlue, "Registrando evento:", event_name);
+//     },
+//     printDebugMessage: function (msg) {
+//       console.log(LOG_COLORS.FgWhite, msg);
+//     },
+//     goNext: function(dialog) {
+//       console.log('Next dialog: ' + dialog);
+//     }
 
-  };
-})();
+//   };
+// })();
 
 function compareIgnoreCaseAndSpaces(a, b) {
     if (a && b) return toUpperRemoveWhiteSpaces(noSymbol(a)) == toUpperRemoveWhiteSpaces(noSymbol(b));
@@ -370,6 +370,150 @@ function T_check_estado_prev_avje() {
     }
 }
 
+//////////////////// FECHA INICIO
+/** Constantes de rutas y configuraciones */
+var RUTA_FORMATO_INVALIDO = 'T _ Formato fecha inicio invalido @AVJE';
+var RUTA_FECHA_INVALIDA = 'T _ Fecha inicio invalida @AVJE';
+var RUTA_NO_DISPONIBLE = 'T _ No disponible @AVJE';
+var RUTA_FECHA_FIN = 'Q _ Fecha fin @AVJE';
+var UN_DIA_MILISEGUNDOS = 86400000;
+/**
+ * Parsea una fecha en formato DD/MM/YYYY.
+ *
+ * @param {string} dateString - Fecha en formato DD/MM/YYYY.
+ * @returns {Object} - Objeto con:
+ *                     - isValid: Indica si la fecha es válida.
+ *                     - date: Objeto Date o null.
+ */
+function parseDateDDMMYYYY(dateString) {
+    var parts = dateString.split('/');
+    if (parts.length !== 3) {
+        return { isValid: false, date: null };
+    }
+
+    var day = parseInt(parts[0], 10);
+    var month = parseInt(parts[1], 10);
+    var year = parseInt(parts[2], 10);
+
+    if (isNaN(day) || isNaN(month) || isNaN(year)) {
+        return { isValid: false, date: null };
+    }
+
+    var date = new Date(year, month - 1, day);
+    var isValid = date.getFullYear() === year && date.getMonth() + 1 === month && date.getDate() === day;
+
+    return {
+        isValid: isValid,
+        date: isValid ? date : null,
+    };
+}
+/**
+ * Valida la fecha de inicio del viaje (AVJE) y devuelve el destino.
+ *
+ * - Debe ser válida y mayor o igual a hoy.
+ * - No debe superar los 30 días desde hoy.
+ *
+ * @returns {string} - Ruta a seguir en el flujo.
+ */
+function validarFechaInicioViaje_AVJE() {
+    var result = parseDateDDMMYYYY(getBotVar('fecha_inicio'));
+
+    if (!result.isValid) {
+        return RUTA_FORMATO_INVALIDO;
+    }
+
+    var fechaInicio = result.date;
+    var hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    if (fechaInicio < hoy) {
+        return RUTA_FECHA_INVALIDA;
+    }
+
+    var diferenciaDias = (fechaInicio - hoy) / UN_DIA_MILISEGUNDOS;
+
+    if (diferenciaDias > 30) {
+        return RUTA_NO_DISPONIBLE;
+    }
+
+    return RUTA_FECHA_FIN;
+}
+/**
+ * Ejecuta el goNext con la ruta obtenida de validarFechaInicioViaje_AVJE.
+ */
+function validarFechaInicioViaje_AVJEgoNext() {
+    goNext(validarFechaInicioViaje_AVJE());
+}
+//////////////////// FECHA FIN
+/** Constantes de rutas y configuraciones */
+var RUTA_AVISO_FECHA_FIN_FORMATO_INVALIDO = 'T _ Formato fecha fin invalido @AVJE';
+var RUTA_AVISO_FECHA_FIN_INVALIDA_ANTERIOR_A_HOY = 'T _ Fecha fin invalida @AVJE';
+var RUTA_AVISO_EXCESO_DIAS_VIAJE = 'T _ Exceso dias de viaje @AVJE';
+var RUTA_AVISO_FECHA_FIN_VALIDA = 'Q _ Paises destino @AVJE';
+var RUTA_AVISO_FECHA_FIN_ANTERIOR_A_INICIO = 'T _ Fecha fin anterior a inicio @AVJE';
+/**
+ * Valida la fecha de fin del viaje (AVJE) y devuelve el destino.
+ *
+ * - Debe ser válida y mayor o igual a hoy.
+ * - No debe superar los 180 días desde la fecha de inicio.
+ * - No debe ser anterior a la fecha de inicio.
+ *
+ * @returns {string} - Ruta a seguir en el flujo.
+ */
+function validarFechaFinViaje_AVJE() {
+    var fechaFinStr = getBotVar('fecha_fin');
+    var fechaInicioStr = getBotVar('fecha_inicio');
+
+    debugMsg(fechaInicioStr + ' ' + fechaFinStr);
+
+    var fechaInicio = parseDateDDMMYYYY(fechaInicioStr);
+    var fechaFin = parseDateDDMMYYYY(fechaFinStr);
+
+    if (!fechaFin.isValid) {
+        return RUTA_AVISO_FECHA_FIN_FORMATO_INVALIDO;
+    }
+
+    var hoy = new Date();
+    hoy.setHours(0, 0, 0, 0);
+
+    if (fechaFin.date < hoy) {
+        return RUTA_AVISO_FECHA_FIN_INVALIDA_ANTERIOR_A_HOY;
+    }
+
+    if (fechaFin.date < fechaInicio.date) {
+        return RUTA_AVISO_FECHA_FIN_ANTERIOR_A_INICIO;
+    }
+
+    var diferenciaDias = (fechaFin.date - fechaInicio.date) / UN_DIA_MILISEGUNDOS;
+
+    if (diferenciaDias > 180) {
+        return RUTA_AVISO_EXCESO_DIAS_VIAJE;
+    }
+
+    return RUTA_AVISO_FECHA_FIN_VALIDA;
+}
+/**
+ * Formatea una fecha en DD/MM/YYYY.
+ */
+function formatearFecha(fecha) {
+    var dia = String(fecha.getDate()).padStart(2, '0');
+    var mes = String(fecha.getMonth() + 1).padStart(2, '0');
+    var anio = fecha.getFullYear();
+    return dia + '/' + mes + '/' + anio;
+}
+/**
+ * Devuelve la fecha de hoy más 3 días en formato DD/MM/YYYY.
+ *
+ * @returns {string} - Fecha formateada en DD/MM/YYYY.
+ */
+function obtenerFechaMasTresDias() {
+    var hoy = new Date();
+    hoy.setDate(hoy.getDate() + 3);
+    var dia = String(hoy.getDate()).padStart(2, '0');
+    var mes = String(hoy.getMonth() + 1).padStart(2, '0');
+    var anio = hoy.getFullYear();
+    return dia + '/' + mes + '/' + anio;
+}
 //?---------------- HANDLERS ----------
 function res_consultaTarjetasAvisoViaje(data, statusCode) {
     logDebug('input res_consultaTarjetasAvisoViaje', data);
@@ -522,186 +666,3 @@ function guardarValidacionPaises_AVJE(resultado){
     setBotVar('lista_paises_validos', capitalizarFrase(resultado.validos.join(', ')));
     setBotVar('lista_paises_invalidos',capitalizarFrase( resultado.invalidos.join(', ') ));
 }
-
-
-
-//////////////////////////////////////////
-///////////////////// PRUEBAS
-
-/** Constantes de rutas y configuraciones */
-// Lista de países válidos // TODO completar con la lista entera 
-var LISTA_PAISES_AVJE = {
-    "Paises": [
-        { "codigo": "AF", "descripcion": "AFGANISTAN" },
-        { "codigo": "AL", "descripcion": "ALBANIA" },
-        { "codigo": "DE", "descripcion": "ALEMANIA" }
-    ]
-};
-
-// Constantes de rutas
-var RUTA_AVISO_PAISES_MIXTOS = 'T _ Confirmacion con paises invalidos @AVJE';
-var RUTA_AVISO_PAISES_INVALIDOS = 'B _ Todos los paises invalidos @AVJE';
-var RUTA_AVISO_PAISES_VALIDOS = 'T _ Confirmacion sin paises invalidos @AVJE';
-var RUTA_AVISO_NINGUN_PAIS_INGRESADO = 'B _ Todos los paises invalidos @AVJE';
-
-/**
- * Valida los países ingresados contra la lista permitida.
- *
- * @param {string} paises - Lista de países separados por coma.
- * @returns {Object} - Objeto con dos listas: válidos e inválidos.
- */
-function validarPaises_AVJE(paises) {
-    var listaPaises = paises.split(',');
-    var paisesValidosJson = [];
-    var paisesValidos = [];
-    var paisesInvalidos = [];
-
-    listaPaises.forEach(function(pais) {
-        var encontrado = LISTA_PAISES_AVJE.Paises.find(function(p) {
-            return compareIgnoreCaseAndSpaces(p.descripcion, pais);
-        });
-        if (encontrado) {
-            paisesValidos.push(encontrado.descripcion);
-            paisesValidosJson.push(encontrado);
-        } else {
-            paisesInvalidos.push(pais.trim());
-        }
-    });
-
-    return {
-        validosJson : paisesValidosJson,
-        validos: paisesValidos,
-        invalidos: paisesInvalidos
-    };
-}
-
-
-/**
- * Lógica para determinar la interacción dependiendo de los países encontrados.
- *
- * @param {Object} resultado - Objeto con los países válidos e inválidos.
- * @returns {string} - Ruta a seguir en el flujo.
- */
-function determinarRutaPaises_AVJE(resultado) { 
-    if (resultado.invalidos.length > 0 && resultado.validos.length > 0) {
-        return RUTA_AVISO_PAISES_MIXTOS;
-    }
-    if (resultado.invalidos.length > 0) {
-        return RUTA_AVISO_PAISES_INVALIDOS;
-    }
-    if (resultado.validos.length > 0) {
-        return RUTA_AVISO_PAISES_VALIDOS;
-    }
-    return RUTA_AVISO_NINGUN_PAIS_INGRESADO;
-}
-
-function guardarValidacionPaises_AVJE(resultado){
-    setBotVar('lista_paises_validos_JSON', resultado.validosJson) //JORGE ver el resultado.validoJson
-    setBotVar('lista_paises_validos', capitalizarFrase(resultado.validos.join(', '))); //JORGE ver el resultado.valido
-    setBotVar('lista_paises_invalidos',capitalizarFrase( resultado.invalidos.join(', ') )); //JORGE ver el resultado.valido
-}
-
-// === PRUEBAS ===
-console.log(validarPaises_AVJE("ALEMANIA, AFGANISTAN, ARGENTINA"));
-console.log(validarPaises_AVJE("ALBANIA, DE, MEXICO"));
-console.log(validarPaises_AVJE("PERU, BOLIVIA"));
-console.log("--------")
-var resultado1 = validarPaises_AVJE("ALEMANIA, AFGANISTAN, ARGENTINA");
-console.log(determinarRutaPaises_AVJE(resultado1));
-
-var resultado3 = validarPaises_AVJE("PERU, BOLIVIA");
-console.log(determinarRutaPaises_AVJE(resultado3));
-
-var resultado4 = validarPaises_AVJE(" A L b a n i a ");
-console.log(determinarRutaPaises_AVJE(resultado4));
-
-var resultado2 = validarPaises_AVJE("ALBANIA, DE, México");
-console.log(determinarRutaPaises_AVJE(resultado2));
-
-console.log("--------")
-
-guardarValidacionPaises_AVJE(resultado1);
-
-console.log(getBotVar("lista_paises_validos_JSON")); // esta va a ser para enviar a la api
-console.log(getBotVar("lista_paises_validos"));
-console.log(getBotVar("lista_paises_invalidos"));
-
-// --------------------------------------------------------ULTIMOS TEST
-
-// ================== CONSTANTES DE RUTAS ======================
-var RUTA_DATOS_PREVIA = 'Datos previa';
-var RUTA_TARJ_FI_FF_PAISES = 'Tarj + F.I. + F.F. + países previa';
-var RUTA_TARJ_FI_FF = 'Tarj + F.I. + F.F. previa';
-var RUTA_TARJ_FI = 'Tarj + Fecha inicio previa';
-var RUTA_SOLO_TARJETAS = 'Selección tarjetas previa';
-var RUTA_INTRO = 'Intro';
-
-/**
- * Verifica el estado previo de las variables del aviso de viaje
- * y redirige a la ruta correspondiente del flujo de conversación.
- */
-function T_check_estado_prev_avje() {
-    var tarjetasAVJE = getBotVar('tarjetasAVJE');
-    var fechaInicioAVJE = getBotVar('fechaInicioAVJE');
-    var fechaFinAVJE = getBotVar('fechaFinAVJE');
-    var paisesAVJE = getBotVar('paisesAVJE');
-    var emailUsuario = getBotVar('emailUsuario');
-
-    if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE) && !isEmpty(fechaFinAVJE) && !isEmpty(paisesAVJE) && !isEmpty(emailUsuario)) {
-        goNext(RUTA_DATOS_PREVIA);
-    } else if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE) && !isEmpty(fechaFinAVJE) && !isEmpty(paisesAVJE)) {
-        goNext(RUTA_TARJ_FI_FF_PAISES);
-    } else if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE) && !isEmpty(fechaFinAVJE)) {
-        goNext(RUTA_TARJ_FI_FF);
-    } else if (!isEmpty(tarjetasAVJE) && !isEmpty(fechaInicioAVJE)) {
-        goNext(RUTA_TARJ_FI);
-    } else if (!isEmpty(tarjetasAVJE)) {
-        goNext(RUTA_SOLO_TARJETAS);
-    } else {
-        goNext(RUTA_INTRO);
-    }
-}
-
-// ===========================================================
-// TESTING PARA LA FUNCIÓN: T_check_estado_prev_avje
-// valida el flujo de diálogo según variables de contexto
-// ===========================================================
-
-// CASO 1: Todas las variables presentes
-// resetVars();
-setBotVar('tarjetasAVJE', '1234');
-setBotVar('fechaInicioAVJE', '2024-06-01');
-setBotVar('fechaFinAVJE', '2024-06-15');
-setBotVar('paisesAVJE', 'ARGENTINA');
-setBotVar('emailUsuario', 'test@email.com');
-T_check_estado_prev_avje(); // Esperado: Datos previa
-
-// CASO 2: Falta email
-// resetVars();
-setBotVar('tarjetasAVJE', '1234');
-setBotVar('fechaInicioAVJE', '2024-06-01');
-setBotVar('fechaFinAVJE', '2024-06-15');
-setBotVar('paisesAVJE', 'ARGENTINA');
-T_check_estado_prev_avje(); // Esperado: Tarj + F.I. + F.F. + países previa
-
-// CASO 3: Solo tarjetas, fecha inicio y fin
-//resetVars();
-setBotVar('tarjetasAVJE', '1234');
-setBotVar('fechaInicioAVJE', '2024-06-01');
-setBotVar('fechaFinAVJE', '2024-06-15');
-T_check_estado_prev_avje(); // Esperado: Tarj + F.I. + F.F. previa
-
-// CASO 4: Solo tarjetas y fecha inicio
-//resetVars();
-setBotVar('tarjetasAVJE', '1234');
-setBotVar('fechaInicioAVJE', '2024-06-01');
-T_check_estado_prev_avje(); // Esperado: Tarj + Fecha inicio previa
-
-// CASO 5: Solo tarjetas
-//resetVars();
-setBotVar('tarjetasAVJE', '1234');
-T_check_estado_prev_avje(); // Esperado: Selección tarjetas previa
-
-// CASO 6: Ninguna variable
-//resetVars();
-T_check_estado_prev_avje(); // Esperado: Intro
