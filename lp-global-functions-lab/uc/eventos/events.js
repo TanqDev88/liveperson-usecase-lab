@@ -1,3 +1,4 @@
+//****************************************** EVENTOS FLUJO INTEGRACOIN QUALTRICS **************************************************/
 function api_integration_qualtrics_postProcessMessage() {
     if (isApiExecutionFail()) {
         var statusCode = Number(getApiStatusCode());
@@ -22,5 +23,23 @@ function api_integration_qualtrics_postProcessMessage() {
     } else {
 
         botContext.logCustomEvent('', 'Encuesta', 'RespuestaOkQualtrics');
+    }
+}
+
+//****************************************** EVENTOS FLUJO DESVINCULACION **************************************************/
+function api_integration_desvincularNumero_DESCE_postProcessMessage() {
+    if (isApiExecutionFail()) {
+        var statusCode = Number(getApiStatusCode());
+        switch (statusCode) {
+            case 400:
+                botContext.logCustomEvent('', 'Desvinculacion', 'ErrorDesvinculacionLP');
+                break;
+            case 409:
+                goNext('T _ Desvinculado 1 @DESCE');
+                break;
+            default:
+                botContext.logCustomEvent('', 'Desvinculacion', 'ErrorDesvinculacionBio');
+                break;
+        }
     }
 }
