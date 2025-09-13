@@ -43,3 +43,24 @@ function api_integration_desvincularNumero_DESCE_postProcessMessage() {
         }
     }
 }
+
+function logEventApiIntegration(nameAPIIntegration, eventName, success) {
+    var eventDetail = {
+        dataFaaS: [
+            {
+                ts: {
+                    i: getBotVar('initTimestamp'),
+                    e: Date.now(),
+                },
+                n: nameAPIIntegration,
+                Code: success ? Number(get_universalStatusCode()) : 500,
+            },
+        ],
+        user: {
+            dni: getNroDocumento(),
+            tel: getTelefonoFromBot(),
+        },
+    };
+    var eventNameTec = eventName + ' Tec';
+    botContext.logCustomEvent(nameAPIIntegration, eventNameTec, JSON.stringify(eventDetail));
+}
