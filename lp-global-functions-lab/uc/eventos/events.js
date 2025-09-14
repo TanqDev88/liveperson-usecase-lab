@@ -64,3 +64,8 @@ function logEventApiIntegration(nameAPIIntegration, eventName, success) {
     var eventNameTec = eventName + ' Tec';
     botContext.logCustomEvent(nameAPIIntegration, eventNameTec, JSON.stringify(eventDetail));
 }
+
+function customEventByUserMessagge(userMessage, userText, eventName, eventDetails) {
+    if (getUserMessage() == userMessage) botContext.logCustomEvent(userText, eventName, eventDetails);
+    return;
+}
