@@ -618,27 +618,47 @@ var RUTA_AVISO_NINGUN_PAIS_INGRESADO = 'B _ Todos los paises invalidos @AVJE';
  * @returns {Object} - Objeto con dos listas: válidos e inválidos.
  */
 function validarPaises_AVJE(paises) {
-    var listaPaises = paises.split(',');
+    logDebug('Validando países input: ' + paises);
+
+    if (isEmpty(paises)) {
+        return { validosJson: [], validos: [], invalidos: [] };
+    }
+
+    var normalized = paises.replace(/[.,]+/g, ',');
+
+    var listaPaises = normalized.split(',');
     var paisesValidosJson = [];
     var paisesValidos = [];
     var paisesInvalidos = [];
 
-    listaPaises.forEach(function(pais) {
-        var encontrado = LISTA_PAISES_AVJE.Paises.find(function(p) {
-            return compareIgnoreCaseAndSpaces(p.descripcion, pais);
+    listaPaises.forEach(function (pais) {
+        if (isEmpty(pais)) return;
+
+        var paisLimpio = pais.trim().replace(/^[\s\.,]+|[\s\.,]+$/g, '');
+
+        if (isEmpty(paisLimpio)) return;
+
+        var encontrado = null;
+        LISTA_PAISES_AVJE.Paises.forEach(function (p) {
+            if (compareIgnoreCaseAndSpaces(revertirNormalizacion(p.descripcion), paisLimpio)) {
+                encontrado = p;
+            }
         });
+
         if (encontrado) {
-            paisesValidos.push(encontrado.descripcion);
-            paisesValidosJson.push(encontrado);
+            if (paisesValidos.indexOf(encontrado.descripcion) === -1) {
+                paisesValidos.push(encontrado.descripcion);
+                paisesValidosJson.push(encontrado);
+            }
         } else {
-            paisesInvalidos.push(pais.trim());
+            paisesInvalidos.push(paisLimpio);
         }
     });
 
     return {
-        validosJson : paisesValidosJson,
+        validosJson: paisesValidosJson,
         validos: paisesValidos,
-        invalidos: paisesInvalidos
+        invalidos: paisesInvalidos,
     };
 }
 
