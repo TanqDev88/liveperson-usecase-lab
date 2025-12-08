@@ -9,7 +9,7 @@ function buildMenuTarjetas_SEGTA() {
             var info = {
                 choice: e.choice,
                 id: '',
-                title: e.ProductoNegocio,
+                title: !isEmpty(e.ProductoNegocio) ? e.ProductoNegocio : !isEmpty(e.Producto) ? e.Producto : 'Tarjeta',
                 subtitle: e.EstadoNegocio + ' - Nro de referencia: ' + e.IdPieza.slice(-6),
             };
             if (isEmpty(data)) {
