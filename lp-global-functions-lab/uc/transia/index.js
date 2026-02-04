@@ -11,3 +11,27 @@ function isWhiteList() {
     }
     return res;
 }
+
+function isEmpleado() {
+    var cliente = get_clienteData();
+    logDebug('ClientData en isEmpleado', cliente);
+    return cliente && cliente.clasificacion && cliente.clasificacion.subsegmento === '09';
+}
+
+function isMercadoAbierto() {
+    var cliente = get_clienteData();
+    logDebug('ClientData en isMercadoAbierto', cliente);
+
+    if (!cliente || !cliente.clasificacion) return false;
+
+    var segmento = cliente.clasificacion.segmento;
+    var subsegmento = cliente.clasificacion.subsegmento;
+
+    var SUBSEGMENTOS_MERCADO_ABIERTO = [
+        '15', '19', '20', '21', '22',
+        '24', '57', '62', '67', '91', '102'
+    ];
+
+    return segmento === '04' &&
+           SUBSEGMENTOS_MERCADO_ABIERTO.indexOf(subsegmento) !== -1;
+}
