@@ -12,6 +12,17 @@ function isWhiteList() {
     return res;
 }
 
+function isWhiteListIA() {
+    if (
+        isEmpleado() ||
+        isMercadoAbierto() ||
+        WHITELIST_PHONES_IA.indexOf(getTelefonoFromBot()) !== -1
+    ) {
+        return true;
+    }
+    return false;
+}
+
 function isEmpleado() {
     var cliente = get_clienteData();
     logDebug('ClientData en isEmpleado', cliente);
