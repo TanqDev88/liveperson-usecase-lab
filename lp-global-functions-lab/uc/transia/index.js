@@ -46,3 +46,8 @@ function isMercadoAbierto() {
     return segmento === '04' &&
            SUBSEGMENTOS_MERCADO_ABIERTO.indexOf(subsegmento) !== -1;
 }
+
+function compareIgnoreCaseAndSpaces(a, b) {
+    if (a && b) return toUpperRemoveWhiteSpaces(noSymbol(a)) == toUpperRemoveWhiteSpaces(noSymbol(b));
+    return false;
+}
