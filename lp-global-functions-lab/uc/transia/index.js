@@ -51,3 +51,29 @@ function compareIgnoreCaseAndSpaces(a, b) {
     if (a && b) return toUpperRemoveWhiteSpaces(noSymbol(a)) == toUpperRemoveWhiteSpaces(noSymbol(b));
     return false;
 }
+
+function res_cuentaConsultaTitularidad(data) {
+    logDebug('input res_cuentaConsultaTitularidad', data);
+    set_codeErrorPrisma('');
+    if (universalErrorHandler_FaaS(data)) {
+        if (data.error.code_http == 412) {
+
+            if (!isEmpty(data.error.details)) {
+                try {
+                    var errorDetail = JSON.parse(data.error.details);
+                    set_codeErrorPrisma(errorDetail.error_code);
+                } catch (e) {
+                    logDebug('Error parseando details de prisma', data.error.details);
+                    set_codeErrorPrisma('DEFAULT_412');
+                }
+
+            } else {
+                logDebug('412 sin details, se usa manejo default');
+                set_codeErrorPrisma('DEFAULT_412');
+            }
+        }
+    } else {
+        set_res_cuentaConsultaTitularidad(data.data);
+        set_cuentaConsultaTitularidad(data);
+    }
+}
