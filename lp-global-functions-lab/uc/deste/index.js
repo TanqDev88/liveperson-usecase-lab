@@ -11,3 +11,11 @@ function isWhiteListOperadorDesvinculacion() {
     }
     return res;
 }
+function T_Intro__DESTE_preProcessMessage() {
+
+    if (!isWhiteListOperadorDesvinculacion()) {
+        goNext('T_Error en desvinculacion @DESTE');//Esta interaccion esta incorrecta solo es para probar el listado de nuemeros
+        return;
+    }
+    goNext('Q_Solicitud_DNI__DESTE');
+}
