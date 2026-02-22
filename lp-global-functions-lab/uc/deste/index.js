@@ -19,3 +19,22 @@ function T_Intro__DESTE_preProcessMessage() {
     }
     goNext('Q_Solicitud_DNI__DESTE');
 }
+function obtenerDniYGeneroDesdeString(input) {
+    if (!input || typeof input !== 'string') {
+        return null;
+    }
+  
+    var valor = input.replace(/\s+/g, '').replace('-', '').trim();
+
+    var match = valor.match(/^(\d{7,8})([a-zA-Z])$/);
+
+    if (!match) {
+        return null;
+    }
+
+    return {
+        dniNumerico: match[1],
+        genero: match[2].toUpperCase()
+    };
+}
+
