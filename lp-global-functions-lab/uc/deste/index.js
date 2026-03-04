@@ -37,4 +37,14 @@ function obtenerDniYGeneroDesdeString(input) {
         genero: match[2].toUpperCase()
     };
 }
+function setDatosPersonales_DESTE() {
+    var data = getBotVar('dataTercero');
 
+    if (!data) {
+        logDebug('dataTercero no existe');
+        return;
+    }
+
+    setBotVar('nombre_DESTE', data.nombre);
+    setBotVar('apellido_DESTE', data.apellido);
+}
