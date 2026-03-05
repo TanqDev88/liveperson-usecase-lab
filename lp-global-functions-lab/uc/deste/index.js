@@ -48,3 +48,18 @@ function setDatosPersonales_DESTE() {
     setBotVar('nombre_DESTE', data.nombre);
     setBotVar('apellido_DESTE', data.apellido);
 }
+function B_ClienteEncontrado_DESTE_postprocessMessage() {
+    var input = getUserMessage();
+    if (compareIgnoreCaseAndSpaces(input, 'Sí, desvincular')) {
+        logInfo('Si, desvincularrr.');
+        goNext('Q_Solicitud de numero de reclamo @DESTE'); 
+        return;
+    }
+}
+
+
+function resetVars_DESTE() {
+    setBotVar('dataTercero', '');
+    setBotVar('nombre_DESTE', '');
+    setBotVar('apellido_DESTE', '');
+}
