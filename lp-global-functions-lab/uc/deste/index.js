@@ -50,6 +50,82 @@ function obtenerDniYGeneroDesdeString(input) {
     };
 }
 
+function api_integration_identificacion_universal_terceros_DESTE() {
+    try {
+
+        var input = getUserMessage();
+        var datos = obtenerDniYGeneroDesdeString(input);
+
+        if (!datos) {
+            goNext('B_Input invalido @DESTE');
+            return;
+        }
+
+        // Setear directamente las variables que usa la integración
+        setBotVar('terceroDNI_JUPRO', datos.dniNumerico);
+        setBotVar('terceroGenero_JUPRO', datos.genero);
+
+        logDebug('DNI Y GENERO VALIDADOS CORRECTAMENTE');
+
+    } catch (error) {
+        logDebug(error);
+        goNext('T_Error generico identificacion @DESTE');
+    }
+}
+
+
+// api_integration_identificacion_universal_terceros 
+function api_integration_identificacion_universal_terceros_DESTE_postProcessMessage() {
+    try {
+
+        if (isApiExecutionFail()) {
+            logDebug('FALLÓ LA INTEGRACION IDENTIFICACION - DESTE');
+            goNext('T_Error generico identificacion @DESTE');
+            return;
+        }
+
+        var httpCode = Number(get_universalStatusCode());
+        logDebug('HTTP CODE IDENTIFICACION: ' + httpCode);
+
+        if (httpCode === 200) {
+
+    setDatosPersonales_DESTE();
+
+    goNext('B_Cliente encontrado @DESTE');
+    return;
+}
+
+        if (httpCode === 404) {
+            logDebug('SIN DATO - DNI NO ENCONTRADO');
+            goNext('B_Sin dato @DESTE');
+            return;
+        }
+
+        if (httpCode === 403) {
+            logDebug('TELEFONO EN BLACKLIST');
+            goNext('T_Telefono en blacklist @DESTE');
+            return;
+        }
+
+        if (httpCode === 400 || 
+            httpCode === 401 || 
+            httpCode === 412 || 
+            httpCode === 500) {
+
+            logDebug('ERROR IDENTIFICACION - HTTP ' + httpCode);
+            goNext('T_Error generico identificacion @DESTE');
+            return;
+        }
+
+        logDebug('CODIGO NO MAPEADO - ERROR GENERICO');
+        goNext('T_Error generico identificacion @DESTE');
+
+    } catch (error) {
+        logDebug(error);
+        goNext('T_Error generico identificacion @DESTE');
+    }
+}
+
 function api_integration_desvincularNumeroTercero_DESTE_postProcessMessage() {
     try {
         var httpCode = Number(get_universalStatusCode());
@@ -99,6 +175,7 @@ function setDatosPersonales_DESTE() {
     setBotVar('nombre_DESTE', data.nombre);
     setBotVar('apellido_DESTE', data.apellido);
 }
+
 function B_ClienteEncontrado_DESTE_postprocessMessage() {
     var input = getUserMessage();
     if (compareIgnoreCaseAndSpaces(input, 'Sí, desvincular')) {
