@@ -1,3 +1,15 @@
+function __initConversation() {
+    try {
+        setSessionData();
+        set_bio_operacion(BIO_OPERACION_RESET);
+        initNamepsaceForUser(USER_DATA_NAMESPACE, TTL_NAMESPACES);
+        initNamepsaceForUser(GENERAL_NAMESPACE, TTL_GENERAL_NAMESPACE);
+        load_user_from_namespace();
+    } catch (error) {
+        logDebug(error);
+    }
+}
+
 var WHITELIST_PHONES_OPERADOR_DESVINCULACION = [
     '5491159575878',
     '5491170355625',
