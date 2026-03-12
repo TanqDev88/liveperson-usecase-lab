@@ -10,6 +10,17 @@ function __initConversation() {
     }
 }
 
+function setSessionData() {
+    setBotVar('env', ENV);
+    setBotVar('env_bot_cb'.ENV_BOT_CB);
+    setBotVar('botId', botContext.getChatBotId());
+    setBotVar('userId', botContext.getUserPlatformId());
+    setBotVar('conversationId', botContext.getConversationId());
+}
+function set_bio_operacion(bioOperacionReset) {
+    setBotVar('bio_operacion', bioOperacionReset);
+}
+
 var WHITELIST_PHONES_OPERADOR_DESVINCULACION = [
     '5491159575878',
     '5491170355625',
