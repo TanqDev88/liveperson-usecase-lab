@@ -20,6 +20,39 @@ function setSessionData() {
 function set_bio_operacion(bioOperacionReset) {
     setBotVar('bio_operacion', bioOperacionReset);
 }
+function load_user_from_namespace() {
+    try {
+        logInfo('INICIO - CARGA DE DATOS DEL CLIENTE DESDE EL NAMESPACE');
+        var namespace = botContext.getContextDataForUser(USER_DATA_NAMESPACE);
+        saveTelefonoToBot();
+        resetGender();
+        if (namespace === null) {
+            logInfo('USER_DATA_NAMESPACE VACIO');
+            return;
+        }
+
+        var cliente = namespace.bio_data ? namespace.bio_data : getDataFromNamespace(USER_DATA_NAMESPACE, 'bio_data');
+
+        if (cliente) {
+            logDebug('DATOS PERSONALES CLIENTE FROM LOAD', cliente);
+            set_varsBioDataCliente(JSON.parse(cliente));
+
+            var bio_refresh_token = namespace.bio_refresh_token ? namespace.bio_refresh_token : getDataFromNamespace(USER_DATA_NAMESPACE, 'bio_refresh_token');
+            var bio_access_token = namespace.bio_access_token ? namespace.bio_access_token : getDataFromNamespace(USER_DATA_NAMESPACE, 'bio_access_token');
+            var genero = namespace.genero ? namespace.genero : getDataFromNamespace(USER_DATA_NAMESPACE, 'genero');
+
+            set_bioRefreshToken(JSON.parse(bio_refresh_token));
+            set_bioAccessToken(JSON.parse(bio_access_token));
+            set_clienteGenero(JSON.parse(genero));
+
+            logInfo('FIN - CARGA DE DATOS DEL CLIENTE DESDE EL NAMESPACE');
+        } else {
+            logInfo('EL CLIENTE NO TIENE DATOS PERSONALES GUARDADOS');
+        }
+    } catch (error) {
+        logDebug('FALLO LA CARGA DE DATOS DEL CLIENTE DESDE EL NAMESPACE', error);
+    }
+}
 
 var WHITELIST_PHONES_OPERADOR_DESVINCULACION = [
     '5491159575878',
