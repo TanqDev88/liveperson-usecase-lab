@@ -54,6 +54,24 @@ function load_user_from_namespace() {
     }
 }
 
+function set_varsBioDataCliente(cliente) {
+    try {
+        set_clienteData(cliente);
+        setNombreUsuario(cliente);
+        set_nombreYapellidoUI(cliente);
+        set_documento_tributario(cliente.documento_tributario);
+        setNroDocumento(cliente.documento_tributario.split('').slice(2, -1).join(''));
+        set_clienteState(cliente.state);
+        var bioClient_hash = isEmpty(cliente.referencias.client_hash) ? '' : cliente.referencias.client_hash;
+        set_clientHash(bioClient_hash);
+        var bioClient_id = isEmpty(cliente.referencias.client_id) ? '' : cliente.referencias.client_id;
+        set_clientId(bioClient_id);
+        setEnroladoBiometria(cliente.enroladobiometria);
+    } catch (error) {
+        logDebug(error);
+    }
+}
+
 var WHITELIST_PHONES_OPERADOR_DESVINCULACION = [
     '5491159575878',
     '5491170355625',
