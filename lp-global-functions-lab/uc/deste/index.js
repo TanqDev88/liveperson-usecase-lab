@@ -72,6 +72,19 @@ function set_varsBioDataCliente(cliente) {
     }
 }
 
+// Setters & Getters telefonoUsuario
+function saveTelefonoToBot() {
+    var customerInfo = botContext.getLPCustomerInfo();
+    if (customerInfo) {
+        var customerId = customerInfo.customerId.split('_');
+        setBotVar('telefonoUsuario', customerId[2]);
+        setBotVar('telefonoUsuarioUI', customerId[2].slice(3));
+    }
+}
+function getTelefonoFromBot() {
+    return getBotVar('telefonoUsuario');
+}
+
 var WHITELIST_PHONES_OPERADOR_DESVINCULACION = [
     '5491159575878',
     '5491170355625',
