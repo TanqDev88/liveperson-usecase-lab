@@ -85,6 +85,17 @@ function getTelefonoFromBot() {
     return getBotVar('telefonoUsuario');
 }
 
+// Setters & Getters genero
+function get_clienteGenero() {
+    return getBotVar('genero');
+}
+function resetGender() {
+    setBotVar('genero', '');
+}
+function set_clienteGenero(genero) {
+    return setBotVar('genero', genero);
+}
+
 var WHITELIST_PHONES_OPERADOR_DESVINCULACION = [
     '5491159575878',
     '5491170355625',
