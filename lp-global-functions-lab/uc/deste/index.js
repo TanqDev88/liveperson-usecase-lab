@@ -95,7 +95,24 @@ function resetGender() {
 function set_clienteGenero(genero) {
     return setBotVar('genero', genero);
 }
-
+// Setters & Getters ErrorSubCode
+function set_subCodeError(val) {
+    var codeInfo = validateText(val);
+    setBotVar('ErrorSubCode', codeInfo);
+}
+function reset_subCodeError() {
+    setBotVar('ErrorSubCode', '');
+}
+// Setters & Getters clienteData
+function set_clienteData(cliente) {
+    return setBotVar_v2('clienteData', cliente);
+}
+function get_clienteData() {
+    return getBotVar_v2('clienteData');
+}
+function reset_clienteData() {
+    return setBotVar_v2('clienteData', '');
+}
 var WHITELIST_PHONES_OPERADOR_DESVINCULACION = [
     '5491159575878',
     '5491170355625',
