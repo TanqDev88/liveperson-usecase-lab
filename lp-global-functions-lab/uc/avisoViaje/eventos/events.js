@@ -24,3 +24,20 @@ function api_integration_qualtrics_postProcessMessage() {
         botContext.logCustomEvent('', 'Encuesta', 'RespuestaOkQualtrics');
     }
 }
+
+function B_Como_seguimos_TUSA_processUserResponse() {
+
+    var input = getUserMessage();
+
+    if (compareIgnoreCaseAndSpaces(input, 'Menú Más temas')) {
+
+        if (isReincidente()) {
+            logDebug('reincidente');
+            return goNext('T _ Inicio @COMMA');
+        } else {
+
+            logDebug('NO reincidente');  
+            return goNext('U _ Mas temas onboarding @ONBAL');
+        }
+    }
+}
