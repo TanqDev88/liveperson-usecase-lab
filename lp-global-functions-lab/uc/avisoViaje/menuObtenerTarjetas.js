@@ -27,3 +27,15 @@ function buildMenuTarjetas_SEGTA() {
         goCallbackFail('consultaEnvioPiezas');
     }
 }
+function obtenerTituloTarj_AVJE(marca) {
+    var partes = marca.split('-');
+    var marcas = {
+        VI: 'VISA',
+        AM: 'AMEX',
+    };
+    var tipos = {
+        CR: 'CRÉDITO',
+        DB: 'DÉBITO',
+    };
+    return marcas[partes[0]] + ' ' + tipos[partes[1]];
+}
