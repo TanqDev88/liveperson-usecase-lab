@@ -39,3 +39,13 @@ function obtenerTituloTarj_AVJE(marca) {
     };
     return marcas[partes[0]] + ' ' + tipos[partes[1]];
 }
+function addTarjetasEnLista(tarjetas) {
+    var list = [];
+    var listUI = [];
+    tarjetas.forEach(function (e) {
+        listUI.push(e.titleUI + ' XXXX-' + e.ultimoscuatrodigitos);
+        list.push({ hash: e.hash });
+    });
+    setBotVar('tarjetas_seleccionadas', listUI.join(', '));
+    return set_listaHashTarjetas_AVJE(list);
+}
