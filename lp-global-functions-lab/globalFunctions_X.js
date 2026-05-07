@@ -686,3 +686,7 @@ function guardarValidacionPaises_AVJE(resultado){
     setBotVar('lista_paises_validos', capitalizarFrase(resultado.validos.join(', ')));
     setBotVar('lista_paises_invalidos',capitalizarFrase( resultado.invalidos.join(', ') ));
 }
+
+function buildUrl(state, config) {
+    return `${config.url_base_link}/?id=${state}`;
+}
